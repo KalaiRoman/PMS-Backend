@@ -1,0 +1,30 @@
+{
+  "name": "pms-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type":"module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"nodemon app/App.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KalaiRoman/PMS-Backend.git"
+  },
+  "keywords": [],
+  "author": "kalaisurya",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KalaiRoman/PMS-Backend/issues"
+  },
+  "homepage": "https://github.com/KalaiRoman/PMS-Backend#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.7.3",
+    "morgan": "^1.11.0",
+    "nodemon": "^3.1.14"
+  }
+}
