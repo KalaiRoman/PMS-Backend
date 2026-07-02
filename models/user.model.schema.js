@@ -24,13 +24,16 @@ const userSchema = new mongoose.Schema(
     userStatus: {
       type: String,
       required: [true, "User Status is required"],
-      enum: ["Active", "Blocked"]
+      enum: ["Active", "Blocked"],
+      default: "Active"
     },
     role: {
       type: String,
       required: [true, "User Role is required"],
       enum: ["Admin", "User"]
-    }
+    },
+    passwordResetToken: { type: String },
+    passwordResetExpiry: { type: Date }
   },
   {
     timestamps: true
