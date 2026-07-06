@@ -11,7 +11,7 @@ const useTokenGenerate = async user => {
     },
     process.env.SECREATE_KEY,
     {
-      expiresIn: "2d"
+      expiresIn: "1d"
     }
   );
 };

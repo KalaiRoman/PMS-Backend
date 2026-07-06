@@ -125,12 +125,9 @@ const forgotPassword = async (req, res) => {
       });
     }
     const resetToken  = generateResetToken();
-
-    console.log(resetToken,"resetToken")
     const tokenExpiry = Date.now() + 15 * 60 * 1000;
-    // const tokenExpiry = Date.now() + 30 * 1000;
-    user.passwordResetToken  = resetToken;
-    user.passwordResetExpiry = tokenExpiry;
+        user.passwordResetToken  = resetToken;
+        user.passwordResetExpiry = tokenExpiry;
     await user.save();
      await sendForgotPasswordEmail({
       toEmail:    user.email,
@@ -149,8 +146,6 @@ const forgotPassword = async (req, res) => {
     });
   }
 };
-
-
 const resetPassword = async (req, res) => {
   try {
     const { token, newPassword } = req.body;
@@ -159,13 +154,6 @@ const resetPassword = async (req, res) => {
       return res.status(400).json({
         success: false,
         message: "Token and new password are required",
-      });
-    }
- 
-    if (newPassword.length < 8) {
-      return res.status(400).json({
-        success: false,
-        message: "Password must be at least 8 characters",
       });
     }
  
@@ -180,12 +168,8 @@ const resetPassword = async (req, res) => {
         message: "Invalid or expired reset token",
       });
     }
- 
-    // 3. Hash new password
-    const hashedPassword = await useGeneratePassword(newPassword);
- 
-    // 4. Update user — clear token fields
-    user.password            = hashedPassword;
+     const hashedPassword = await useGeneratePassword(newPassword);
+     user.password            = hashedPassword;
     user.passwordResetToken  = undefined;
     user.passwordResetExpiry = undefined;
     await user.save();
