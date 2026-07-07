@@ -82,6 +82,16 @@ const userSchema = new mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: "task"
       }
+    ],
+    notification: [
+      {
+        message: String,
+        isRead: Boolean,
+        project: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "project"
+        }
+      }
     ]
   },
   {

@@ -3,7 +3,6 @@ import { useError } from "../helpers/useError.js";
 import projectModelSchema from "../models/project.model.schema.js";
 import userModelSchema from "../models/user.model.schema.js";
 
-
 const createProject = async (req, res) => {
   try {
     const {
@@ -37,7 +36,12 @@ const createProject = async (req, res) => {
         },
         {
           $push: {
-            userAssignedProjects: response._id
+            userAssignedProjects: response._id,
+            notification: {
+              message: "New project created. Development has started",
+              project: response._id,
+              isRead: false
+            }
           }
         }
       );
