@@ -10,7 +10,6 @@ const projectSchema = new mongoose.Schema(
     projectName: {
       type: String,
       required: [true, "project Name is Required"],
-      unique: true
     },
     clientName: {
       type: String,
@@ -26,11 +25,11 @@ const projectSchema = new mongoose.Schema(
       max: 1000,
       required: [true, "Description is Required"]
     },
+    //important
     users: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "user",
-        unique: true
+        ref: "user"
       }
     ]
   },

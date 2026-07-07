@@ -3,6 +3,7 @@ import upload from "./../utils/Multer.utils.js";
 import {
   changePassword,
   forgotPassword,
+  getUsers,
   login,
   register,
   resetPassword,
@@ -14,10 +15,15 @@ const router = express.Router();
 router.post("/register", register);
 router.post("/login", login);
 router.put("/update-profile", updatePofile);
-router.patch("/update-image/:id", jwtVerification,upload.single("image"), updateAvatar);
+router.patch(
+  "/update-image/:id",
+  jwtVerification,
+  upload.single("image"),
+  updateAvatar
+);
 router.patch("/change-password", changePassword);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword);
-
+router.get("/get", jwtVerification,getUsers);
 
 export default router;

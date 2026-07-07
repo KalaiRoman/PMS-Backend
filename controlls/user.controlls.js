@@ -105,6 +105,7 @@ const changePassword = async (req, res, next) => {
   }
 };
 
+//important
 
 const forgotPassword = async (req, res) => {
   try {
@@ -146,6 +147,7 @@ const forgotPassword = async (req, res) => {
     });
   }
 };
+//important
 const resetPassword = async (req, res) => {
   try {
     const { token, newPassword } = req.body;
@@ -188,4 +190,22 @@ const resetPassword = async (req, res) => {
   }
 };
 
-export { register, login, updatePofile, updateAvatar, changePassword,forgotPassword,resetPassword };
+const getUsers=async(req,res,next)=>{
+  try {
+    //important
+    const response=await userModelSchema.find().populate({
+    path: "userAssignedProjects",
+    select: "projectName clientName projectLead users",
+    populate: {
+      path: "users",
+      select: "name email"
+    }
+  });
+    return res.status(200).json({status:true,message:"All users",users:response});
+  } catch (error) {
+    return useError(res, 404, `${error}`);
+    
+  }
+}
+
+export { register, login, updatePofile, updateAvatar, changePassword,forgotPassword,resetPassword,getUsers };

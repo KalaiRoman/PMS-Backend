@@ -1,4 +1,39 @@
 import mongoose from "mongoose";
+
+const chatMessage = new mongoose.Schema({
+  role: {
+    type: String,
+    required: [true, "Role is required"],
+    enum: ["sender", "receiver"]
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+    required: [true, "User is required"]
+  },
+  message: {
+    type: String,
+    required: [true, "Message is required"]
+  },
+  emoji: [
+    {
+      type: {
+        type: String,
+        required: true
+      },
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user",
+        required: true
+      }
+    }
+  ],
+  status: {
+    type: String,
+    enum: ["Not Read", "Readed"],
+    default: "Not Read"
+  }
+});
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -30,10 +65,24 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       required: [true, "User Role is required"],
-      enum: ["Admin", "User"]
+      enum: ["Admin", "User", "subAdmin"]
     },
+    //important
     passwordResetToken: { type: String },
-    passwordResetExpiry: { type: Date }
+    passwordResetExpiry: { type: Date },
+    userAssignedProjects: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "project"
+      }
+    ],
+    chat: chatMessage,
+    yourTask: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "task"
+      }
+    ]
   },
   {
     timestamps: true
