@@ -11,7 +11,7 @@ const jwtVerification = async (req, res, next) => {
         message: "Authorization header is missing"
       });
     }
-    const token = authHeader.split(" ")[0];
+    const token = authHeader.split(" ")[1];
     if (!token) {
       return res.status(401).json({
         status: false,

@@ -3,12 +3,14 @@ import upload from "./../utils/Multer.utils.js";
 import {
   changePassword,
   forgotPassword,
+  getSingleUsers,
   getUsers,
   login,
   register,
   resetPassword,
   updateAvatar,
-  updatePofile
+  updatePofile,
+  userChat
 } from "../controlls/user.controlls.js";
 import jwtVerification from "../middleware/JWTVerification.middleware.js";
 const router = express.Router();
@@ -24,6 +26,8 @@ router.patch(
 router.patch("/change-password", changePassword);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword);
-router.get("/get", jwtVerification,getUsers);
+router.get("/get", jwtVerification, getUsers);
+router.post("/chat", jwtVerification, userChat);
+router.get("/get/:id", jwtVerification, getSingleUsers);
 
 export default router;

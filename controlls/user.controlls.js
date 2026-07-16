@@ -23,7 +23,8 @@ const register = async (req, res, next) => {
       email,
       password: hashPassword,
       role,
-      userStatus
+      userStatus,
+      chat:[]
     });
     const token = await useTokenGenerate(response);
     return res.status(201).json({
@@ -190,22 +191,71 @@ const resetPassword = async (req, res) => {
   }
 };
 
-const getUsers=async(req,res,next)=>{
+const getUsers = async (req, res) => {
   try {
-    //important
-    const response=await userModelSchema.find().populate({
+    const users = await userModelSchema.find().populate({
     path: "userAssignedProjects",
     select: "projectName clientName projectLead users",
     populate: {
       path: "users",
       select: "name email"
     }
-  });
-    return res.status(200).json({status:true,message:"All users",users:response});
+  })
+
+    return res.status(200).json({
+      status: true,
+      data: users
+    });
   } catch (error) {
-    return useError(res, 404, `${error}`);
+    return res.status(500).json({
+      status: false,
+      message: error.message
+    });
+  }
+};
+
+const getSingleUsers = async (req, res) => {
+  try {
+   const user = await userModelSchema.findById(req.params.id);
+
+   console.log(user,"user")
+    return res.status(200).json({
+      status: true,
+      data: user
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: false,
+      message: error.message
+    });
+  }
+};
+
+
+
+const userChat=async(req,res,next)=>{
+  try {
     
+    const updateMessage=await userModelSchema.findByIdAndUpdate(req.body.to,{
+      $push:{
+        chat:{
+          to:req.body.to,
+          from:req.user._id,
+          message:req.body.message,
+          emoji:{
+            type:req.body.emoji.type,
+            user:req.body._id
+          },
+          readStatus:false,
+          createdAt:new Date(),
+        }
+      }
+    },{new:true});
+    return res.status(200).json({status:true,message:"User Message Send Successfully"})
+
+  } catch (error) {
+    return useError(res, 500, `${error}`);
   }
 }
 
-export { register, login, updatePofile, updateAvatar, changePassword,forgotPassword,resetPassword,getUsers };
+export { register, login, updatePofile, updateAvatar, changePassword,forgotPassword,resetPassword,getUsers,userChat,getSingleUsers };

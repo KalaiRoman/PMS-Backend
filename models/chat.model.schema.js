@@ -2,11 +2,6 @@ import mongoose from "mongoose";
 
 const chatSchema = new mongoose.Schema(
   {
-    role: {
-      type: String,
-      required: [true, "Role is required"],
-      enum: ["sender", "receiver"]
-    },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",

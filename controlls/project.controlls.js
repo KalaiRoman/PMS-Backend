@@ -108,6 +108,12 @@ const getProjects = async (req, res, next) => {
         .find()
         .populate("users", "email avatar name role");
     }
+    else
+    {
+        response = await projectModelSchema
+        .find()
+        .populate("user", "email avatar name role");
+    }
     return res.status(200).json({
       success: true,
       data: response

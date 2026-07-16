@@ -8,11 +8,26 @@ envFile;
 const app = express();
 app.use(express.json());
 const Port = process.env.PORT;
+const allowedOrigins = process.env.CORS_ORIGINS_URLS
+  .split(",")
+  .map(origin => origin.trim());
+
 app.use(
   cors({
-    origin: [process.env.CORS_ORIGINS_URLS],
+    origin: (origin, callback) => {
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error(`CORS Error: ${origin} is not allowed`));
+    },
     credentials: true,
-    methods: ["GET", "POST", "PATCH", "PUT", "DELETE"]
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
   })
 );
 app.get("/", (req, res, next) => {
